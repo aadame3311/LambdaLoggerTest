@@ -4,11 +4,11 @@ on:
   workflow_dispatch:
   push:
     branches: [ main ]
-    paths: ./**
+    paths: ../**
 
 defaults:
   run:
-    working-directory: ./
+    working-directory: ../
 
 jobs:
   deploy:
