@@ -36,13 +36,12 @@ jobs:
           AWS_S3_BUCKET_PREFIX: logger-lambda
         run: |
           aws cloudformation package \
-            --template-file template.yml
+            --template-file template.yml \
             --s3-prefix $AWS_S3_BUCKET_PREFIX \
             --output-template-file package.yml \
-            --s3-bucket aadame-lambda
+            --s3-bucket $AWS_S3_BUCKET
 
           aws cloudformation deploy \
-            --template-file package.yml
+            --template-file package.yml \
             --stack-name $AWS_STACK_NAME \
             --capabilities CAPABILITY_IAM \
-            --s3-bucket aadame-lambda
