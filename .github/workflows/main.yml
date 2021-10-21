@@ -44,6 +44,7 @@ jobs:
             --s3-bucket $AWS_S3_BUCKET
 
           aws cloudformation deploy \
+            --region us-east-1 \
             --template-file package.yml \
             --stack-name $AWS_STACK_NAME \
             --capabilities CAPABILITY_IAM \
