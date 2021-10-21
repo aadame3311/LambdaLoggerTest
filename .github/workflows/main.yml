@@ -33,7 +33,7 @@ jobs:
         env:
           AWS_STACK_NAME: LoggerTest
           AWS_S3_BUCKET: ${{ secrets.AWS_DEPLOY_BUCKET_PROD }}
-          AWS_S3_BUCKET_PREFIX: loggertest
+          AWS_S3_BUCKET_PREFIX: /
         run: |
           aws cloudformation package \
             --template-file template.yml
