@@ -18,7 +18,7 @@ const createServiceMetadata = config => {
     }
 }
 
-const createCustomForm = config => {
+const createCustomFormat = config => {
     const serviceMetadata = createServiceMetadata(config);
 
     return winston.format(info => {
