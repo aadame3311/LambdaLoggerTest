@@ -38,7 +38,7 @@ const createCustomFormat = config => {
         Object.assign(logObj, serviceMetadata);
         info[MESSAGE] = jsonStringify(logObj);
         return info;
-    })
+    })();
 }
 
 const createCustomLoggerConfig = config => {
