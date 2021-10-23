@@ -1,6 +1,6 @@
 const { getLogger } = require('./logger');
 
-const service = async (event, context) => {
+const logService = async (event, context) => {
     const logger = getLogger('service').child({ 
         method: 'service', 
         body: jsonBody 
@@ -9,4 +9,6 @@ const service = async (event, context) => {
     logger.info('Service log');
 }
 
-module.exports = service;
+module.exports = {
+    logService
+}
