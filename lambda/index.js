@@ -34,4 +34,4 @@ const defaultLoggerAspect = loggerAspectFactory('default', 'info');
 AOP.inject(this, defaultLoggerAspect, 'around', 'method', main);
 AOP.inject(service, serviceLoggerAspect, 'around', 'methods');
 
-exports.handler = (event, context) => main(event, context);
+exports.handler = async (event, context) => await main(event, context);
