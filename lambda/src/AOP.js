@@ -1,10 +1,15 @@
 /** Helping function used to get all methods of an object */
 const getMethods = (obj) => { 
-    const methods = 
-        Object.getOwnPropertyNames(Object.getPrototypeOf(obj)).filter(item => typeof obj[item] === 'function');
-    console.log('methods', methods);
-    console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(obj)));
+    const methods = [];
 
+    const objProps = Object.keys(obj)
+        .filter((key) => typeof obj[key] === 'function')
+        .map((key) => obj[key]);
+    objProps.forEach(prop => {
+        if (typeof prop === 'function');
+        methods.push(prop.name);
+    });
+    
     return methods;
 }
 
@@ -29,7 +34,7 @@ function replaceMethod(target, methodName, aspect, advice) {
 
 module.exports = {
     //Main method exported: inject the aspect on our target when and where we need to
-    inject: function(target, aspect, advice, pointcut, method = null) {
+    inject: (target, aspect, advice, pointcut, method = null) => {
         if(pointcut == "method") {
             if(method != null) {
                 replaceMethod(target, method, aspect, advice)    

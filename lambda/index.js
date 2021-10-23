@@ -18,8 +18,8 @@ const main = async (event, context) => {
     // creates logger Aspects to be used on Advice defs
     const serviceLoggerAspect = loggerAspectFactory('service', 'info');
     AOP.inject(service, serviceLoggerAspect, 'around', 'methods');
-    
-    await service.logService(event, context);
+
+    await service.service(event, context);
     
     return {
         statusCode: 200,
@@ -27,5 +27,6 @@ const main = async (event, context) => {
     };;
 };
 
+main({ body: "{}"}, {});
 
 exports.handler = async (event, context) => await main(event, context);

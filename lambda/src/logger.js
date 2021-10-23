@@ -91,8 +91,6 @@ const loggerAspectFactory = (name, level) => {
     return aspect;
 }
 
-AOP.inject({}, loggingAspect, 'before', 'methods');
-
 module.exports = {
     addLoggers,
     getLogger,
