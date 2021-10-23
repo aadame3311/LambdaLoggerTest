@@ -1,6 +1,6 @@
 const { getLogger } = require('./logger');
 
-const logService = async (event, context) => {
+async function logService(event, context) {
     const logger = getLogger('service').child({ 
         method: 'service', 
         body: JSON.parse(event?.body) 
