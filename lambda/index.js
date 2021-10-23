@@ -27,6 +27,4 @@ const main = async (event, context) => {
     };;
 };
 
-main({ body: "{}"}, {});
-
 exports.handler = async (event, context) => await main(event, context);
