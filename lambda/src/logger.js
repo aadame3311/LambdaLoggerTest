@@ -3,6 +3,7 @@ const os = require('os');
 const forOwn = require('lodash').forOwn;
 const { MESSAGE } = require('triple-beam');
 const jsonStringify = require('fast-safe-stringify');
+const AOP = require('./AOP');
 
 const createServiceMetadata = config => {
     return {
@@ -70,7 +71,31 @@ const getLogger = category => {
     return winston.loggers.get(category);
 }
 
+const loggingAspect = (...args) => {
+    const logger = getLogger(loggerName);
+    logger[level]('Start', {
+        parameters: {
+            ...args
+        }
+    });
+}
+
+const loggerAspectFactory = (name, level) => {
+    const logger = getLogger(name);
+
+    // aspect defines action to be taken on Advice definiton (AOP concepts)
+    const aspect = (...args) => {
+        logger[level](args);
+    }
+
+    return aspect;
+}
+
+AOP.inject({}, loggingAspect, 'before', 'methods');
+
 module.exports = {
     addLoggers,
-    getLogger
+    getLogger,
+    loggingAspect,
+    loggerAspectFactory
 }
