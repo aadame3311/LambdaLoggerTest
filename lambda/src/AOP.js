@@ -1,5 +1,12 @@
 /** Helping function used to get all methods of an object */
-const getMethods = (obj) => Object.getOwnPropertyNames(Object.getPrototypeOf(obj)).filter(item => typeof obj[item] === 'function')
+const getMethods = (obj) => { 
+    const methods = 
+        Object.getOwnPropertyNames(Object.getPrototypeOf(obj)).filter(item => typeof obj[item] === 'function');
+    console.log('methods', methods);
+    console.log(Object.getOwnPropertyNames(Object.getPrototypeOf(obj)));
+
+    return methods;
+}
 
 /** Replace the original method with a custom function that will call our aspect when the advice dictates */
 function replaceMethod(target, methodName, aspect, advice) {
