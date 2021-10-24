@@ -1,17 +1,9 @@
 const { getLogger } = require("./logger")
 
 
-const helper1 = () => {
-    const logger = getLogger('helper');
+const helper1 = () => { }
 
-    logger.info('in helper1');
-}
-
-const helper2 = () => {
-    const logger = getLogger('helper');
-
-    logger.info('in helper2');
-}
+const helper2 = (param) => { }
 
 module.exports = {
     helper1,

@@ -71,15 +71,6 @@ const getLogger = category => {
     return winston.loggers.get(category);
 }
 
-const loggingAspect = (...args) => {
-    const logger = getLogger(loggerName);
-    logger[level]('Start', {
-        parameters: {
-            ...args
-        }
-    });
-}
-
 const loggerAspectFactory = (name, level) => {
     const logger = getLogger(name);
 
@@ -94,6 +85,5 @@ const loggerAspectFactory = (name, level) => {
 module.exports = {
     addLoggers,
     getLogger,
-    loggingAspect,
     loggerAspectFactory
 }

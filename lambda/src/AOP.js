@@ -20,11 +20,11 @@ function replaceMethod(target, methodName, aspect, advice) {
     const originalCode = target[methodName]
     target[methodName] = (...args) => {
         if(["before", "around"].includes(advice)) {
-            aspect.apply(target, [`${methodName} Start`, ...args]);
+            aspect.apply(target, [`${methodName} Start`, { parameters: { ...args } }]);
         }
         const returnedValue = originalCode.apply(target, args)
         if(["after", "around"].includes(advice)) {
-            aspect.apply(target, [`${methodName} End`, ...args])
+            aspect.apply(target, [`${methodName} End`, { parameters: { ...args } }])
         }
         if("afterReturning" == advice) {
             return aspect.apply(target, [returnedValue])

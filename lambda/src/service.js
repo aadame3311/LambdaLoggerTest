@@ -2,20 +2,15 @@ const AOP = require('./AOP');
 const { getLogger, loggerAspectFactory } = require('./logger');
 
 const helpers = require('./helper');
-AOP.inject(helpers, loggerAspectFactory('helper', 'info'), 'around', 'methods');
+/*required*/ AOP.inject(helpers, loggerAspectFactory('helper', 'info'), 'around', 'methods');
 
-const service = async (event, context) => {
-    AOP.inject(require('./helper'), loggerAspectFactory('helper', 'info'), 'around', 'methods');
-    
-    const logger = getLogger('service').child({ 
-        method: 'service', 
-        body: JSON.parse(event?.body) 
-    });
-
-    logger.info('Service log');
-
+const service = async (event, context) => {    
     helpers.helper1();
-    helpers.helper2();
+    helpers.helper2("test");
+
+    return {
+        statusCode: 200
+    }
 }
 
 module.exports = {
