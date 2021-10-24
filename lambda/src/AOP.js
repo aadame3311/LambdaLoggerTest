@@ -5,11 +5,13 @@ const getMethods = (obj) => {
     const objProps = Object.keys(obj)
         .filter((key) => typeof obj[key] === 'function')
         .map((key) => obj[key]);
+
+    
     objProps.forEach(prop => {
         if (typeof prop === 'function');
         methods.push(prop.name);
     });
-    
+
     return methods;
 }
 
@@ -18,11 +20,11 @@ function replaceMethod(target, methodName, aspect, advice) {
     const originalCode = target[methodName]
     target[methodName] = (...args) => {
         if(["before", "around"].includes(advice)) {
-            aspect.apply(target, ['Start', ...args])
+            aspect.apply(target, [`${methodName} Start`, ...args]);
         }
         const returnedValue = originalCode.apply(target, args)
         if(["after", "around"].includes(advice)) {
-            aspect.apply(target, ['End', ...args])
+            aspect.apply(target, [`${methodName} End`, ...args])
         }
         if("afterReturning" == advice) {
             return aspect.apply(target, [returnedValue])
