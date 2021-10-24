@@ -13,8 +13,7 @@ const main = async (event, context) => {
     });
 
     const service = require('./src/service');
-    const inviteServiceLoggerAspect = logger.loggerAspectFactory({ moduleName: 'invite_service', logLevel: 'info' });
-    /*required*/ AOP.inject(service, inviteServiceLoggerAspect, 'around', 'methods');
+    /*required*/ AOP.inject(service, logger.loggerAspectFactory('service', 'info'), 'around', 'methods');
 
     return await service.service(event, context);
 };
