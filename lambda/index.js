@@ -35,8 +35,8 @@ const main = async (event, context) => {
     return await service.service(event, context);
 };
 
-// call this to test locally
-main({ body: "{ \"foo\": 1 }"}, { awsRequestId: 123});
+// uncomment this to test locally, then run node lambda/index.js on cmd
+//main({ body: "{ \"foo\": 1 }"}, { awsRequestId: 123});
 
 // need exports.handler for lambda function.
 exports.handler = async (event, context) => await main(event, context);
