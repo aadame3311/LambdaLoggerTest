@@ -1,4 +1,4 @@
-const { getLogger } = require("./logger")
+const { getLogger } = require("./common_packages/logger")
 
 
 const helper1 = () => { }

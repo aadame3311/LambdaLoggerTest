@@ -71,12 +71,17 @@ const getLogger = category => {
     return winston.loggers.get(category);
 }
 
-const loggerAspectFactory = (name, level) => {
-    const logger = getLogger(name);
+const loggerAspectFactory = params => {
+    const {
+        loggerName, 
+        logLevel
+    } = params;
+
+    const logger = getLogger(loggerName);
 
     // aspect defines action to be taken on Advice definiton (AOP concepts)
     const aspect = (...args) => {
-        logger[`${level}`](...args);
+        logger[`${logLevel}`](...args);
     }
 
     return aspect;
