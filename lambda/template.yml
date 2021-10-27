@@ -21,3 +21,8 @@ Resources:
           Properties:
             Path: /v1/logger
             Method: GET
+        Api2:
+          Type: Api
+          Properties: 
+            Path: /v1/test
+            Method: POST
