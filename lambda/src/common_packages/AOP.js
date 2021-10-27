@@ -18,13 +18,29 @@ const getMethods = (obj) => {
 /** Replace the original method with a custom function that will call our aspect when the advice dictates */
 function replaceMethod(target, methodName, aspect, advice) {
     const originalCode = target[methodName]
-    target[methodName] = (...args) => {
+    target[methodName] = async (...args) => {
+        const startTime = process.hrtime.bigint();
+        
         if(["before", "around"].includes(advice)) {
-            aspect.apply(target, [`${methodName} Start`, { parameters: { ...args } }]);
+            aspect.apply(target, [`${methodName} Start`, 
+            { 
+                    start_time: Number(startTime), 
+                    parameters: { ...args } 
+                }]);
         }
-        const returnedValue = originalCode.apply(target, args)
+
+        const returnedValue = await originalCode.apply(target, args)
+
+        const endTime = process.hrtime.bigint();
+        const duration = (endTime-startTime)/BigInt(1000000);
+
         if(["after", "around"].includes(advice)) {
-            aspect.apply(target, [`${methodName} End`, { parameters: { ...args } }])
+            aspect.apply(target, [`${methodName} End`, 
+                { 
+                    end_time: Number(endTime), 
+                    duration: Number(duration), 
+                    parameters: { ...args } 
+            }])
         }
         if("afterReturning" == advice) {
             return aspect.apply(target, [returnedValue])
