@@ -7,7 +7,10 @@ const helper1 = async () => {
     });
 }
 
-const helper2 = (param) => { }
+const helper2 = (param) => {
+    const logger = getLogger('helper');
+    logger.info('in helper 2');
+}
 
 module.exports = {
     helper1,
