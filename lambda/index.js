@@ -37,13 +37,10 @@ const main = async (event, context) => {
 
     service.flush();
     helpers.flush();
-
-    console.log('FLUSHED LOGGERS');
-    await service.service(event, context);
 };
 
 // uncomment this to test locally, then run node lambda/index.js on cmd
-main({ body: "{ \"foo\": 1 }"}, { awsRequestId: 123});
+//main({ body: "{ \"foo\": 1 }"}, { awsRequestId: 123});
 
 // need exports.handler for lambda function.
 exports.handler = async (event, context) => await main(event, context);
