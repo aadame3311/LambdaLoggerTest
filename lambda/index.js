@@ -33,10 +33,12 @@ const main = async (event, context) => {
     
     
     // finally, call main service code (invite_service, submit_service etc..)
-    await service.service(event, context);
+    const result = await service.service(event, context);
 
     service.flush();
     helpers.flush();
+
+    return result;
 };
 
 // uncomment this to test locally, then run node lambda/index.js on cmd
