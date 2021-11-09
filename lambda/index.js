@@ -34,15 +34,17 @@ const main = async (event, context) => {
     
     // finally, call main service code (invite_service, submit_service etc..)
     const result = await service.service(event, context);
-
-    service.flush();
-    helpers.flush();
-
     return result;
+
 };
 
 // uncomment this to test locally, then run node lambda/index.js on cmd
-//main({ body: "{ \"foo\": 1 }"}, { awsRequestId: 123});
+(async () => {
+    await main({ body: "{ \"foo\": 1 }"}, { awsRequestId: 123});
+    console.log('----');
+    AOP.flushAll();
+    await main({ body: "{ \"foo\": 1 }"}, { awsRequestId: 123});
+})();
 
 // need exports.handler for lambda function.
 exports.handler = async (event, context) => await main(event, context);

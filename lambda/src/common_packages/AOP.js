@@ -1,4 +1,4 @@
-
+const methodSnapshot = [];
 /** Helping function used to get all methods of an object */
 const getMethods = (obj) => { 
     const methods = [];
@@ -7,10 +7,10 @@ const getMethods = (obj) => {
         .filter((key) => typeof obj[key] === 'function')
         .map((key) => obj[key]);
 
-    
     objProps.forEach(prop => {
-        if (typeof prop === 'function');
-        methods.push(prop.name);
+        if (typeof prop === 'function') {
+            methods.push(prop.name);
+        }
     });
 
     return methods;
@@ -18,7 +18,9 @@ const getMethods = (obj) => {
 
 /** Replace the original method with a custom function that will call our aspect when the advice dictates */
 function replaceMethod(target, methodName, aspect, advice) {
-    const originalCode = target[methodName]
+    const originalCode = target[methodName];
+
+    methodSnapshot.push({ target, methodName, originalCode });
 
     const methodReplacement = async (...args) => {
         const startTime = process.hrtime.bigint();
@@ -44,6 +46,7 @@ function replaceMethod(target, methodName, aspect, advice) {
                     parameters: { ...args } 
             }])
         }
+
         if("afterReturning" == advice) {
             return aspect.apply(target, [returnedValue])
         } else {
@@ -55,19 +58,16 @@ function replaceMethod(target, methodName, aspect, advice) {
 }
 
 module.exports = {
+    flushAll: () => {
+        methodSnapshot.forEach(m => {
+            m.target[m.methodName] = m.originalCode;
+        });
+    },
     //Main method exported: inject the aspect on our target when and where we need to
     inject: (target, aspect, advice, pointcut, method = null) => {
-        // keep snapshot of target to reset target on flush
-        // flushing is crucial to keep modules pristine between subsequent lambda executions
-        if (!target.replaced) {
-            let targetSnapshot = Object.assign({}, target);
-            target.flush = () => Object.assign(target, targetSnapshot);
-        }
-        
         if(pointcut == "method") {
             if(method != null) {
                 replaceMethod(target, method, aspect, advice)   
-                target.replaced = true; 
             } else {
                 throw new Error("Tryin to add an aspect to a method, but no method specified")
             }
@@ -76,7 +76,6 @@ module.exports = {
             const methods = getMethods(target)
             methods.forEach( m => {
                 replaceMethod(target, m, aspect, advice)
-                target.replaced = true;
             })
         }
     }
