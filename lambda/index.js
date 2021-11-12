@@ -9,7 +9,7 @@ const main = async (event, context) => {
     
     logger.addLoggers(['default', 'service', 'helper'], {
         namespace: 'lambda::logger::test',
-        environment: process.env.NODE_ENV,
+        environment: 'dev',//process.env.NODE_ENV,
         aws_request_id: get(context, 'awsRequestId'),
         labels: {
             body: JSON.parse(get(event, 'body'))
@@ -35,9 +35,14 @@ const main = async (event, context) => {
     // finally, call main service code (invite_service, submit_service etc..)
     const result = await service.service(event, context);
     AOP.flushAll();
-    
+
     return result;
 };
+
+(async() => {
+    await main({ body: "\"\{ test: 1\}\"", headers: {}}, { awsRequestId: "123" })
+
+})();
 
 // need exports.handler for lambda function.
 exports.handler = async (event, context) => await main(event, context);

@@ -26,11 +26,15 @@ function replaceMethod(target, methodName, aspect, advice) {
         const startTime = process.hrtime.bigint();
         
         if(["before", "around"].includes(advice)) {
-            aspect.apply(target, [`${methodName} Start`, 
-            { 
-                    start_time: Number(startTime), 
-                    parameters: { ...args } 
-                }]);
+            aspect.apply(target, [
+                {
+                    message: `${methodName} Start`, 
+                    labels: { 
+                        start_time: Number(startTime), 
+                        parameters: { ...args } 
+                    }
+                }
+            ]);
         }
 
         try {
@@ -40,22 +44,34 @@ function replaceMethod(target, methodName, aspect, advice) {
             const duration = (endTime-startTime)/BigInt(1000000);
     
             if(["after", "around"].includes(advice)) {
-                aspect.apply(target, [`${methodName} End`, 
-                    { 
-                        end_time: Number(endTime), 
-                        duration: Number(duration), 
-                        parameters: { ...args } 
-                }])
+                aspect.apply(target, [
+                    {
+                        message: `${methodName} End`, 
+                        labels: { 
+                            end_time: Number(endTime), 
+                            duration: Number(duration), 
+                            parameters: { ...args } 
+                        }
+                    }
+                ]);
             }
     
             if("afterReturning" == advice) {
-                return aspect.apply(target, [returnedValue])
+                return aspect.apply(target, [{
+                    message: `${methodName} Returned`,
+                    labels: { returnedValue }
+                }]);
             } else {
                 return returnedValue
             }
         } catch(error) {
-
-            aspect.apply(target, ['error', `${methodName} Exception`, { error }]);
+            aspect.apply(target, [
+                {
+                    level: 'error',
+                    message: `${methodName} Exception`, 
+                    labels: error
+                }
+            ]);
 
         }
     }
