@@ -33,24 +33,30 @@ function replaceMethod(target, methodName, aspect, advice) {
                 }]);
         }
 
-        const returnedValue = await originalCode.apply(target, args)
+        try {
+            const returnedValue = await originalCode.apply(target, args)
 
-        const endTime = process.hrtime.bigint();
-        const duration = (endTime-startTime)/BigInt(1000000);
+            const endTime = process.hrtime.bigint();
+            const duration = (endTime-startTime)/BigInt(1000000);
+    
+            if(["after", "around"].includes(advice)) {
+                aspect.apply(target, [`${methodName} End`, 
+                    { 
+                        end_time: Number(endTime), 
+                        duration: Number(duration), 
+                        parameters: { ...args } 
+                }])
+            }
+    
+            if("afterReturning" == advice) {
+                return aspect.apply(target, [returnedValue])
+            } else {
+                return returnedValue
+            }
+        } catch(error) {
 
-        if(["after", "around"].includes(advice)) {
-            aspect.apply(target, [`${methodName} End`, 
-                { 
-                    end_time: Number(endTime), 
-                    duration: Number(duration), 
-                    parameters: { ...args } 
-            }])
-        }
+            aspect.apply(target, ['error', `${methodName} Exception`, { error }]);
 
-        if("afterReturning" == advice) {
-            return aspect.apply(target, [returnedValue])
-        } else {
-            return returnedValue
         }
     }
 
