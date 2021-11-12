@@ -69,10 +69,11 @@ function replaceMethod(target, methodName, aspect, advice) {
                 {
                     level: 'error',
                     message: `${methodName} Exception`, 
-                    labels: error
+                    labels: { error: error.toString() }
                 }
             ]);
 
+            throw error;
         }
     }
 

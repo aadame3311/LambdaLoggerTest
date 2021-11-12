@@ -39,10 +39,10 @@ const main = async (event, context) => {
     return result;
 };
 
-(async() => {
-    await main({ body: "\"\{ test: 1\}\"", headers: {}}, { awsRequestId: "123" })
+// (async() => {
+//     await main({ body: "\"\{ test: 1\}\"", headers: {}}, { awsRequestId: "123" })
 
-})();
+// })();
 
 // need exports.handler for lambda function.
 exports.handler = async (event, context) => await main(event, context);
