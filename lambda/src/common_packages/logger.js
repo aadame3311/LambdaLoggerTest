@@ -81,7 +81,7 @@ const loggerAspectFactory = params => {
 
     // aspect defines action to be taken on Advice definiton (AOP concepts)
     const aspect = (_level=logLevel, ...args) => {
-        logger[`${_level}`](...args);
+        logger[`${logLevel}`](...args);
     }
 
     return aspect;
