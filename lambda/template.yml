@@ -7,7 +7,7 @@ Resources:
     DependsOn: S3DeliveryStream
     Type: AWS::Logs::Destination
     Properties:
-      DestinationName: !Ref S3DeliveryStream
+      DestinationName: LogDestination
       RoleArn: arn:aws:iam::201768851286:role/LogKinesisRole
       TargetArn: !GetAtt S3DeliveryStream.Arn
       DestinationPolicy: >
