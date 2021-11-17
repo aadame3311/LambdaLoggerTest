@@ -6,7 +6,7 @@ Resources:
   LogDestinations:
     Type: AWS::Logs::Destination
     Properties:
-      DestinationName: !GetAtt S3DeliveryStream.DeliveryStreamName
+      DestinationName: !Ref S3DeliveryStream
       TargetArn: !GetAtt S3DeliveryStream.Arn
   S3DeliveryStream:
     Type: AWS::KinesisFirehose::DeliveryStream
