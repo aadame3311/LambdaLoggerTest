@@ -4,6 +4,7 @@ Description: Logger Test
 
 Resources:
   LogDestinations:
+    DependsOn: S3DeliveryStream
     Type: AWS::Logs::Destination
     Properties:
       DestinationName: !Ref S3DeliveryStream
