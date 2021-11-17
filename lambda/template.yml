@@ -19,7 +19,7 @@ Resources:
           SizeInMBs: 128
           IntervalInSeconds: 900
         CompressionFormat: UNCOMPRESSED
-        ErrorOutputPrefix: table/error/!{firehose:error-output-type}/dt=!{timestamp:yyyy'-'MM'-'dd'}/h=!{timestamp:HH}/
+        ErrorOutputPrefix: table/error/!{firehose:error-output-type}/dt=!{timestamp:yyyy'-'MM'-'dd}/h=!{timestamp:HH}/
         Prefix: YYYY=!{partitionKeyFromQuery:YYYY}/MM=!{partitionKeyFromQuery:MM}//DD=!{partitionKeyFromQuery:DD}/HH=!{partitionKeyFromQuery:HH}/REGION=!{partitionKeyFromQuery:REGION}/SITEID=!{partitionKeyFromQuery:SITEID}/
         RoleARN: arn:aws:iam::201768851286:role/KinesisFirehoseServiceRole
         DynamicPartitioningConfiguration:
