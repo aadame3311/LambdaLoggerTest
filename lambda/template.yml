@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
-Description: Logger Test
+Description: Logger Test 
 
 Resources:
   LoggerLambda:
@@ -23,6 +23,6 @@ Resources:
             Method: GET
         Api2:
           Type: Api
-          Properties: 
+          Properties:
             Path: /v1/test
             Method: POST
