@@ -10,7 +10,7 @@ Resources:
       RoleArn: arn:aws:iam::201768851286:role/LogKinesisRole
       TargetArn: !GetAtt S3DeliveryStream.Arn
       DestinationPolicy: >
-        {"Version" : "2012-10-17","Statement" : [{"Effect" : "Allow", "Principal" : {"AWS" : !{!GetAtt LogDestination.Arn}},"Action" : "logs:PutSubscriptionFilter", "Resource" : !{!GetAtt S3DeliveryStream.Arn}}]}
+        {"Version" : "2012-10-17","Statement" : [{"Effect" : "Allow", "Principal" : {"AWS" : "arn:aws:iam::201768851286:user/antonio"},"Action" : "logs:PutSubscriptionFilter", "Resource" : "arn:aws:firehose:us-east-1:201768851286:deliverystream/log-stream-11272021"}]}
   S3DeliveryStream:
     Type: AWS::KinesisFirehose::DeliveryStream
     Properties:
