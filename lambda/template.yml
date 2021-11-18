@@ -46,6 +46,9 @@ Resources:
       DeliveryStreamName: log-stream-11272021
       DeliveryStreamType: DirectPut
       S3DestinationConfiguration:
+        BufferingHints:
+            SizeInMBs: 128
+            IntervalInSeconds: 5
         BucketARN: arn:aws:s3:::log-bucket-11172021
         RoleARN: "arn:aws:iam::201768851286:role/FirehosetoS3Role"
         
