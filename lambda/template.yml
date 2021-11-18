@@ -38,7 +38,7 @@ Resources:
       DestinationArn: "arn:aws:firehose:us-east-1:201768851286:deliverystream/log-stream-11272021"
       FilterPattern: ""
       LogGroupName: !Sub '/aws/lambda/${LoggerLambda}'
-      RoleArn: "arn:aws:iam::201768851286:role/FirehosetoS3Role"
+      RoleArn: "arn:aws:iam::201768851286:role/CWLtoKinesisFirehoseRole"
 
   S3DeliveryStream:
     Type: AWS::KinesisFirehose::DeliveryStream
@@ -53,7 +53,7 @@ Resources:
         CompressionFormat: UNCOMPRESSED
         ErrorOutputPrefix: table/error/!{firehose:error-output-type}/dt=!{timestamp:yyyy'-'MM'-'dd}/h=!{timestamp:HH}/
         Prefix: YYYY=!{partitionKeyFromQuery:YYYY}/MM=!{partitionKeyFromQuery:MM}//DD=!{partitionKeyFromQuery:DD}/HH=!{partitionKeyFromQuery:HH}/REGION=!{partitionKeyFromQuery:REGION}/SITEID=!{partitionKeyFromQuery:SITEID}/
-        RoleARN: arn:aws:iam::201768851286:role/KinesisFirehoseServiceRole
+        RoleARN: "arn:aws:iam::201768851286:role/FirehosetoS3Role"
         DynamicPartitioningConfiguration:
           Enabled: true
           RetryOptions:
