@@ -31,14 +31,14 @@ Resources:
   #         ]
   #       }
         
-  LogSubscriptionFilter:
-    DependsOn: S3DeliveryStream
-    Type: AWS::Logs::SubscriptionFilter
-    Properties: 
-      DestinationArn: "arn:aws:firehose:us-east-1:201768851286:deliverystream/log-stream-11272021"
-      FilterPattern: ""
-      LogGroupName: !Sub '/aws/lambda/${LoggerLambda}'
-      RoleArn: "arn:aws:iam::201768851286:role/CWLtoKinesisFirehoseRole"
+  # LogSubscriptionFilter:
+  #   DependsOn: S3DeliveryStream
+  #   Type: AWS::Logs::SubscriptionFilter
+  #   Properties: 
+  #     DestinationArn: "arn:aws:firehose:us-east-1:201768851286:deliverystream/log-stream-11272021"
+  #     FilterPattern: ""
+  #     LogGroupName: !Sub '/aws/lambda/${LoggerLambda}'
+  #     RoleArn: "arn:aws:iam::201768851286:role/CWLtoKinesisFirehoseRole"
 
   S3DeliveryStream:
     Type: AWS::KinesisFirehose::DeliveryStream
