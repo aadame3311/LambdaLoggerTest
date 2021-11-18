@@ -2,16 +2,38 @@ AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: Logger Test
 
+Parameters:
+  DestinationName:
+    Type: String
+    Default: LogDestination
+  DestinationPolicy:
+    Type: String
+    Default: !Join ["", ["{\"Version\" : \"2012-10-17\",\"Statement\" : [{\"Effect\" : \"Allow\", \"Principal\" : {\"AWS\" :", "\"arn:aws:iam::201768851286:user/antonio\"", "\"Action\": \"logs:PutSubscriptionFilter\", \"Resource\" : ", !GetAtt , "}]}"]]
+
 Resources:
   LogDestinations:
     DependsOn: S3DeliveryStream
     Type: AWS::Logs::Destination
     Properties:
-      DestinationName: LogDestination
+      DestinationName: 
+        Ref: DestinationName
       RoleArn: arn:aws:iam::201768851286:role/LogKinesisRole
       TargetArn: !GetAtt S3DeliveryStream.Arn
-      DestinationPolicy: >
-        {"Version" : "2012-10-17","Statement" : [{"Effect" : "Allow", "Principal" : {"AWS" : "arn:aws:iam::201768851286:user/antonio"},"Action" : "logs:PutSubscriptionFilter", "Resource" : "arn:aws:logs:us-east-1:201768851286:destination:LogDestination"}]}
+      DestinationPolicy: |
+        {
+          "Version" : "2012-10-17",
+          "Statement" : [
+            {
+              "Effect" : "Allow",
+              "Principal" : {
+                "AWS" : "201768851286"
+              },
+              "Action" : "logs:PutSubscriptionFilter", 
+              "Resource" : "arn:aws:logs:us-east-1:201768851286:destination:LogDestination"
+            }
+          ]
+        }
+        
   S3DeliveryStream:
     Type: AWS::KinesisFirehose::DeliveryStream
     Properties:
