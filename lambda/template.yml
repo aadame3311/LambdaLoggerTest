@@ -38,7 +38,7 @@ Resources:
       DestinationArn: "arn:aws:firehose:us-east-1:201768851286:deliverystream/log-stream-11272021"
       FilterPattern: ""
       LogGroupName: !Sub '/aws/lambda/${LoggerLambda}'
-      RoleArn: "arn:aws:iam::201768851286:role/CWLtoKinesisRole"
+      RoleArn: "arn:aws:iam::201768851286:role/FirehosetoS3Role"
 
   S3DeliveryStream:
     Type: AWS::KinesisFirehose::DeliveryStream
