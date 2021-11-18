@@ -5,11 +5,8 @@ Description: Logger Test
 Parameters:
   DestinationName:
     Type: String
-    Default: LogDestination
-  DestinationPolicy:
-    Type: String
-    Default: !Join ["", ["{\"Version\" : \"2012-10-17\",\"Statement\" : [{\"Effect\" : \"Allow\", \"Principal\" : {\"AWS\" :", "\"arn:aws:iam::201768851286:user/antonio\"", "\"Action\": \"logs:PutSubscriptionFilter\", \"Resource\" : ", !GetAtt , "}]}"]]
-
+    Default: "LogDestination"
+ 
 Resources:
   LogDestinations:
     DependsOn: S3DeliveryStream
