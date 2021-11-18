@@ -16,21 +16,8 @@ Resources:
         Ref: DestinationName
       RoleArn: arn:aws:iam::201768851286:role/LogKinesisRole
       TargetArn: !GetAtt S3DeliveryStream.Arn
-      DestinationPolicy: |
-        {
-          "Version" : "2012-10-17",
-          "Statement" : [
-            {
-              "Effect" : "Allow",
-              "Principal" : {
-                "AWS" : "201768851286"
-              },
-              "Action" : "logs:PutSubscriptionFilter", 
-              "Resource" : "arn:aws:logs:us-east-1:201768851286:destination:LogDestination"
-            }
-          ]
-        }
-        
+      DestinationPolicy: !Sub '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"AWS":"${!self:custom.devAccountId}"},"Action":"logs:PutSubscriptionFilter","Resource":"arn:aws:logs:${AWS::Region}:${AWS::AccountId}:destination:${!self:custom.logDestination.name}"}]}'
+
   S3DeliveryStream:
     Type: AWS::KinesisFirehose::DeliveryStream
     Properties:
