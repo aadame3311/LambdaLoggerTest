@@ -8,44 +8,44 @@ Parameters:
     Default: "LogDestination"
  
 Resources:
-  # LogDestinations:
-  #   DependsOn: S3DeliveryStream
-  #   Type: AWS::Logs::Destination
-  #   Properties:
-  #     DestinationName: 
-  #       Ref: DestinationName
-  #     RoleArn: arn:aws:iam::201768851286:role/LogKinesisRole
-  #     TargetArn: !GetAtt S3DeliveryStream.Arn
-  #     DestinationPolicy: |
-  #       {
-  #         "Version" : "2012-10-17",
-  #         "Statement" : [
-  #           {
-  #             "Effect" : "Allow",
-  #             "Principal" : {
-  #               "AWS" : "201768851286"
-  #             },
-  #             "Action" : "logs:PutSubscriptionFilter", 
-  #             "Resource" : "arn:aws:logs:us-east-1:201768851286:destination:LogDestination"
-  #           }
-  #         ]
-  #       }
-        
-  LogSubscriptionFilter:
+  LogDestinations:
     DependsOn: S3DeliveryStream
-    Type: AWS::Logs::SubscriptionFilter
-    Properties: 
-      DestinationArn: "arn:aws:firehose:us-east-1:201768851286:deliverystream/log-stream-11272021"
-      FilterPattern: ""
-      LogGroupName: !Sub '/aws/lambda/${LoggerLambda}'
+    Type: AWS::Logs::Destination
+    Properties:
+      DestinationName: 
+        Ref: DestinationName
       RoleArn: "arn:aws:iam::201768851286:role/CWLtoKinesisFirehoseRole"
+      TargetArn: !GetAtt S3DeliveryStream.Arn
+      DestinationPolicy: |
+        {
+          "Version" : "2012-10-17",
+          "Statement" : [
+            {
+              "Effect" : "Allow",
+              "Principal" : {
+                "AWS" : "201768851286"
+              },
+              "Action" : "logs:PutSubscriptionFilter", 
+              "Resource" : "arn:aws:logs:us-east-1:201768851286:destination:LogDestination"
+            }
+          ]
+        }
+        
+  # LogSubscriptionFilter:
+  #   DependsOn: S3DeliveryStream
+  #   Type: AWS::Logs::SubscriptionFilter
+  #   Properties: 
+  #     DestinationArn: "arn:aws:firehose:us-east-1:201768851286:deliverystream/log-stream-11272021"
+  #     FilterPattern: ""
+  #     LogGroupName: !Sub '/aws/lambda/${LoggerLambda}'
+  #     RoleArn: "arn:aws:iam::201768851286:role/CWLtoKinesisFirehoseRole"
 
   S3DeliveryStream:
     Type: AWS::KinesisFirehose::DeliveryStream
     Properties:
       DeliveryStreamName: log-stream-11272021
       DeliveryStreamType: DirectPut
-      ExtendedS3DestinationConfiguration:
+      S3DestinationConfiguration:
         BucketARN: arn:aws:s3:::log-bucket-11172021
         RoleARN: "arn:aws:iam::201768851286:role/FirehosetoS3Role"
         
