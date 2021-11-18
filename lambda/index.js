@@ -31,12 +31,14 @@ const main = async (event, context) => {
     AOP.inject(helpers, helperLoggerAspect, 'before', 'method', 'helper1'); // will only log Start
     AOP.inject(helpers, helperLoggerAspect, 'after', 'method', 'helper2'); // will only log End
     
-    
-    // finally, call main service code (invite_service, submit_service etc..)
-    const result = await service.service(event, context);
-    AOP.flushAll();
+    let result;
+    try {
+        result = await service.service(event, context);
+    } finally {
+        AOP.flushAll();
 
-    return result;
+        return result;
+    }
 };
 
 // (async() => {
